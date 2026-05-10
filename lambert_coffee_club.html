@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lambert Coffee Club — Registro de Socio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --espresso: #0e0804;
+    --roast: #1c1007;
+    --bark: #2e1a0a;
+    --mahogany: #4a2c10;
+    --caramel: #8b5a2b;
+    --latte: #c8a47e;
+    --cream: #f5ead8;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e4a0;
+    --white: #fdfaf4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--espresso);
+    color: var(--cream);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── GEOMETRIC DECORATIVE LINES ── */
+  .deco-line {
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto;
+  }
+  .deco-ornament {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+    margin: 18px 0;
+  }
+  .deco-ornament span { flex: 1; max-width: 80px; height: 0.5px; background: var(--gold); opacity: 0.6; }
+  .deco-ornament svg { flex-shrink: 0; }
+
+  /* ── HERO BANNER ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-left {
+    background: var(--roast);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 70px 80px 80px;
+    position: relative;
+    border-right: 0.5px solid rgba(201,168,76,0.25);
+  }
+
+  /* Coffee bean pattern on left */
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.08);
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: 30px;
+    width: 250px; height: 250px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.06);
+  }
+
+  .badge-top {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .badge-top::before, .badge-top::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 0.5px;
+    background: var(--gold);
+    opacity: 0.7;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 72px;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .hero-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: var(--latte);
+    margin-top: 6px;
+    margin-bottom: 40px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(245,234,216,0.72);
+    max-width: 360px;
+    margin-bottom: 50px;
+    border-left: 2px solid rgba(201,168,76,0.4);
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  /* Benefit pills */
+  .benefits-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 50px;
+  }
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .benefit-icon {
+    width: 40px; height: 40px;
+    border: 0.5px solid rgba(201,168,76,0.5);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .benefit-icon svg { width: 18px; height: 18px; }
+  .benefit-text strong {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .benefit-text span {
+    font-size: 13px;
+    color: rgba(245,234,216,0.65);
+  }
+
+  .stamp-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .stamp {
+    border: 0.5px solid rgba(201,168,76,0.35);
+    padding: 10px 20px;
+    text-align: center;
+  }
+  .stamp .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stamp .label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--latte);
+    margin-top: 2px;
+  }
+
+  /* ── FORM SIDE ── */
+  .hero-right {
+    background: var(--bark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 80px 80px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative arc background */
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.07);
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; right: -120px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.05);
+  }
+
+  .form-header {
+    margin-bottom: 38px;
+  }
+  .form-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .form-note {
+    font-size: 12.5px;
+    color: rgba(245,234,216,0.5);
+    line-height: 1.7;
+  }
+
+  .form-group {
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .form-group label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    background: rgba(14,8,4,0.5);
+    border: 0.5px solid rgba(201,168,76,0.3);
+    color: var(--cream);
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  .form-group input::placeholder { color: rgba(245,234,216,0.28); }
+  .form-group input:focus,
+  .form-group select:focus { border-color: var(--gold); }
+  .form-group select { cursor: pointer; }
+  .form-group select option { background: var(--bark); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .checkbox-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .checkbox-wrap input[type="checkbox"] {
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: rgba(14,8,4,0.5);
+    border: 0.5px solid rgba(201,168,76,0.4);
+    -webkit-appearance: none; appearance: none;
+    cursor: pointer; margin-top: 2px;
+    position: relative;
+  }
+  .checkbox-wrap input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--gold);
+  }
+  .checkbox-wrap label {
+    font-size: 12px;
+    color: rgba(245,234,216,0.6);
+    line-height: 1.6;
+    cursor: pointer;
+  }
+  .checkbox-wrap label a { color: var(--gold); text-decoration: none; }
+
+  .btn-register {
+    width: 100%;
+    background: var(--gold);
+    color: var(--espresso);
+    border: none;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    padding: 18px 24px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.15s;
+    position: relative;
+    z-index: 1;
+  }
+  .btn-register:hover { background: var(--gold-light); }
+  .btn-register:active { transform: scale(0.99); }
+
+  .form-footer {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 11.5px;
+    color: rgba(245,234,216,0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── PRODUCTS SECTION ── */
+  .products-section {
+    position: relative;
+    z-index: 1;
+    background: var(--roast);
+    padding: 100px 80px;
+    border-top: 0.5px solid rgba(201,168,76,0.15);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+  .section-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .section-title strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.15);
+    border: 0.5px solid rgba(201,168,76,0.15);
+  }
+  .product-card {
+    background: var(--roast);
+    padding: 40px 30px;
+    text-align: center;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .product-card:hover { background: var(--bark); }
+  .product-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 20px;
+    border: 0.5px solid rgba(201,168,76,0.4);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .product-icon svg { width: 26px; height: 26px; fill: var(--gold); }
+  .product-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    color: var(--latte);
+    margin-bottom: 10px;
+  }
+  .product-desc {
+    font-size: 12.5px;
+    color: rgba(245,234,216,0.45);
+    line-height: 1.7;
+  }
+
+  /* ── POINTS SECTION ── */
+  .points-section {
+    position: relative;
+    z-index: 1;
+    background: var(--mahogany);
+    padding: 90px 80px;
+    border-top: 0.5px solid rgba(201,168,76,0.12);
+    border-bottom: 0.5px solid rgba(201,168,76,0.12);
+  }
+
+  .points-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .points-divider { background: rgba(201,168,76,0.2); height: 80px; }
+  .points-item { padding: 20px 50px; text-align: center; }
+  .points-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .points-unit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--latte);
+  }
+  .points-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: rgba(245,234,216,0.5);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── ROASTING SECTION ── */
+  .roasting-section {
+    position: relative;
+    z-index: 1;
+    background: var(--espresso);
+    padding: 100px 80px;
+  }
+  .roasting-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .roasting-visual {
+    position: relative;
+    height: 440px;
+    border: 0.5px solid rgba(201,168,76,0.15);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Coffee bean SVG animation */
+  .bean-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.12);
+  }
+  .bean-ring-1 { width: 320px; height: 320px; animation: spin-slow 30s linear infinite; }
+  .bean-ring-2 { width: 220px; height: 220px; animation: spin-slow 20s linear infinite reverse; }
+  .bean-ring-3 { width: 120px; height: 120px; animation: spin-slow 15s linear infinite; }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .roast-center {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+  .roast-circle {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.08);
+    border: 0.5px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+  }
+
+  .roasting-text .section-tag { text-align: left; margin-bottom: 20px; }
+  .roasting-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 30px;
+  }
+  .roasting-title em { font-style: italic; color: var(--gold); }
+  .roasting-body {
+    font-size: 14.5px;
+    color: rgba(245,234,216,0.58);
+    line-height: 1.95;
+    margin-bottom: 40px;
+  }
+  .roast-steps { display: flex; flex-direction: column; gap: 20px; }
+  .roast-step { display: flex; gap: 20px; align-items: flex-start; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: rgba(201,168,76,0.3);
+    line-height: 1;
+    min-width: 36px;
+  }
+  .step-text strong {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--latte);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .step-text span { font-size: 13px; color: rgba(245,234,216,0.5); }
+
+  /* ── SORTEOS / RAFFLE BANNER ── */
+  .raffle-section {
+    position: relative;
+    z-index: 1;
+    background: var(--bark);
+    padding: 80px;
+    border-top: 0.5px solid rgba(201,168,76,0.15);
+    text-align: center;
+    overflow: hidden;
+  }
+  .raffle-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(201,168,76,0.05);
+    transform: translate(-50%, -50%);
+  }
+  .raffle-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .raffle-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 18px;
+    line-height: 1.1;
+  }
+  .raffle-title strong { font-style: normal; font-weight: 600; color: var(--gold); }
+  .raffle-desc {
+    font-size: 14.5px;
+    color: rgba(245,234,216,0.55);
+    max-width: 560px;
+    margin: 0 auto 50px;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+  .raffle-prizes {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .prize-card {
+    border: 0.5px solid rgba(201,168,76,0.3);
+    padding: 30px 35px;
+    min-width: 180px;
+    background: rgba(14,8,4,0.35);
+    text-align: center;
+  }
+  .prize-card .prize-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .prize-card .prize-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .prize-card .prize-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    color: var(--white);
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    background: var(--espresso);
+    padding: 50px 80px;
+    border-top: 0.5px solid rgba(201,168,76,0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-note {
+    font-size: 12px;
+    color: rgba(245,234,216,0.3);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(14,8,4,0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .success-overlay.show { display: flex; }
+  .success-box {
+    border: 0.5px solid rgba(201,168,76,0.4);
+    padding: 60px 80px;
+    background: var(--bark);
+    max-width: 480px;
+  }
+  .success-icon { font-size: 40px; margin-bottom: 24px; display: block; }
+  .success-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+  .success-msg { font-size: 14px; color: rgba(245,234,216,0.65); line-height: 1.8; margin-bottom: 30px; }
+  .btn-close {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--espresso);
+    background: var(--gold);
+    border: none;
+    padding: 14px 32px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 60px 36px; }
+    .hero-right { padding: 60px 36px; }
+    .hero-title { font-size: 42px; }
+    .hero-title em { font-size: 54px; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .points-grid { grid-template-columns: 1fr; }
+    .points-divider { display: none; }
+    .roasting-inner { grid-template-columns: 1fr; }
+    .roasting-visual { height: 280px; }
+    .products-section, .points-section, .roasting-section, .raffle-section, .footer { padding: 60px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <!-- LEFT: BRAND -->
+  <div class="hero-left">
+    <div class="badge-top">Especialistas en Café &amp; Accesorios</div>
+
+    <h1 class="hero-title">
+      Lambert
+      <em>Coffee</em>
+    </h1>
+    <p class="hero-subtitle">Club de Socios · Santiago de Chile</p>
+
+    <p class="hero-desc">
+      Accede a un mundo de beneficios exclusivos para quienes comparten la pasión por el café de especialidad, los tés premium y los utensilios de preparación artesanal.
+    </p>
+
+    <div class="benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="benefit-text">
+          <strong>Puntos por Compra</strong>
+          <span>Acumula puntos en cada compra y canjéalos por productos</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="benefit-text">
+          <strong>Descuentos Exclusivos</strong>
+          <span>Hasta 20% de descuento en insumos, granos y accesorios</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.2">
+            <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2M8 7V5a2 2 0 0 0-4 0v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <div class="benefit-text">
+          <strong>Sorteos Especiales</strong>
+          <span>Participa en sorteos de equipos premium y sets de té exclusivos</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="benefit-text">
+          <strong>Lanzamientos Anticipados</strong>
+          <span>Acceso prioritario a nuevos orígenes y colecciones especiales</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stamp-row">
+      <div class="stamp">
+        <div class="num">+500</div>
+        <div class="label">Socios activos</div>
+      </div>
+      <div class="stamp">
+        <div class="num">15%</div>
+        <div class="label">Descuento promedio</div>
+      </div>
+      <div class="stamp">
+        <div class="num">12</div>
+        <div class="label">Sorteos al año</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="hero-right">
+    <div class="form-header">
+      <div class="form-tag">Membresía Gratuita · Registro</div>
+      <h2 class="form-title">Únete al Club<br>Lambert hoy</h2>
+      <p class="form-note">Completa el formulario y comienza a acumular puntos desde tu primera compra. Sin costo, sin sorpresas.</p>
+    </div>
+
+    <form id="clubForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" placeholder="Tu apellido" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" placeholder="tu@correo.cl" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" placeholder="+56 9 XXXX XXXX">
+      </div>
+
+      <div class="form-group">
+        <label for="interes">Interés Principal</label>
+        <select id="interes" required>
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="cafe-grano">Café de especialidad en grano</option>
+          <option value="metodos">Métodos de preparación (V60, Chemex, etc.)</option>
+          <option value="molinillos">Molinillos y equipos</option>
+          <option value="te">Tés premium e infusiones</option>
+          <option value="teteras">Teteras y sets de té</option>
+          <option value="todo">Todo tipo de insumos</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="rut">RUT (para certificado de socio)</label>
+        <input type="text" id="rut" placeholder="12.345.678-9">
+      </div>
+
+      <div class="checkbox-wrap">
+        <input type="checkbox" id="terminos" required>
+        <label for="terminos">Acepto los <a href="#">términos y condiciones</a> del Club Lambert y autorizo el envío de comunicaciones sobre beneficios y novedades.</label>
+      </div>
+
+      <button type="submit" class="btn-register">UNIRME AL CLUB LAMBERT</button>
+    </form>
+
+    <div class="form-footer">Tu información es confidencial · No compartimos datos con terceros</div>
+  </div>
+</section>
+
+<!-- ══ PRODUCTS ══ -->
+<section class="products-section">
+  <div class="section-header">
+    <div class="section-tag">Nuestros Especialidades</div>
+    <h2 class="section-title">Todo lo que necesitas para<br><strong>la taza perfecta</strong></h2>
+    <div class="deco-ornament">
+      <span></span>
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="#c9a84c" stroke-width="0.8"/><circle cx="8" cy="8" r="1" fill="#c9a84c"/></svg>
+      <span></span>
+    </div>
+  </div>
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7.5 3 5 5.5 5 9c0 2.5 1.5 4.5 3.5 5.5V17h7v-2.5C17.5 13.5 19 11.5 19 9c0-3.5-2.5-6-7-6zm0 2c3.3 0 5 1.8 5 4 0 1.8-1.1 3.3-2.7 4.1L14 14h-4l-.3-.9C8.1 12.3 7 10.8 7 9c0-2.2 1.7-4 5-4zm-2 12h4v1.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V17z"/></svg>
+      </div>
+      <div class="product-name">Molinillos</div>
+      <div class="product-desc">Manuales y eléctricos de alta precisión para el grano perfecto</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+      </div>
+      <div class="product-name">Café en Grano</div>
+      <div class="product-desc">Orígenes de especialidad, tostados artesanalmente con precisión</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21h2.71l1-2.5h12.94l1 2.5h2.71C22 16 21 10 17 8zM8 18l4-4 4 4M12 14V6"/></svg>
+      </div>
+      <div class="product-name">Métodos Brew</div>
+      <div class="product-desc">V60, Chemex, AeroPress, prensa francesa y más métodos de filtrado</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2zm16 5H3l2 13h14l2-13zM9 8v2a3 3 0 0 0 6 0V8"/></svg>
+      </div>
+      <div class="product-name">Tés Premium</div>
+      <div class="product-desc">Basilur, orientales y blends exclusivos de todo el mundo</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13.4a.6.6 0 0 1 .6.6c0 .8-.7 1.4-1.4 1.4H6a1 1 0 0 0-1 1v14M4 19a2 2 0 0 0 4 0M4 19a2 2 0 0 1-2-2v-1h18v1a2 2 0 0 1-2 2M8 19h8"/></svg>
+      </div>
+      <div class="product-name">Teteras & Sets</div>
+      <div class="product-desc">Hierro fundido, esmalte floral, cerámica y gaiwan para ceremonia de té</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+      </div>
+      <div class="product-name">Accesorios</div>
+      <div class="product-desc">Cucharas decorativas, filtros, balanzas y artículos de regalo únicos</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </div>
+      <div class="product-name">Moka & Espresso</div>
+      <div class="product-desc">Moka pots, mini espresso portatil y cápsulas compatibles</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="product-name">Ediciones Limitadas</div>
+      <div class="product-desc">Colecciones especiales disponibles exclusivamente para socios del club</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ POINTS ══ -->
+<section class="points-section">
+  <div class="section-header">
+    <div class="section-tag">Sistema de Puntos</div>
+    <h2 class="section-title">Cómo funciona tu membresía</h2>
+    <div class="deco-ornament">
+      <span></span>
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="#c9a84c" stroke-width="0.8"/><circle cx="8" cy="8" r="1" fill="#c9a84c"/></svg>
+      <span></span>
+    </div>
+  </div>
+  <div class="points-grid">
+    <div class="points-item">
+      <span class="points-num">1</span>
+      <span class="points-unit">punto</span>
+      <span class="points-label">Por cada $100 pesos en compras</span>
+    </div>
+    <div class="points-divider"></div>
+    <div class="points-item">
+      <span class="points-num">100</span>
+      <span class="points-unit">puntos</span>
+      <span class="points-label">Equivalen a $2.000 en descuento</span>
+    </div>
+    <div class="points-divider"></div>
+    <div class="points-item">
+      <span class="points-num">2×</span>
+      <span class="points-unit">doble</span>
+      <span class="points-label">Puntos en productos seleccionados del mes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ROASTING ══ -->
+<section class="roasting-section">
+  <div class="roasting-inner">
+    <div class="roasting-visual">
+      <div class="bean-ring bean-ring-1"></div>
+      <div class="bean-ring bean-ring-2"></div>
+      <div class="bean-ring bean-ring-3"></div>
+      <div class="roast-center">
+        <div class="roast-circle">
+          <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+            <!-- Coffee bean -->
+            <ellipse cx="23" cy="23" rx="14" ry="18" stroke="#c9a84c" stroke-width="0.8" transform="rotate(20 23 23)"/>
+            <line x1="23" y1="8" x2="23" y2="38" stroke="#c9a84c" stroke-width="0.6" transform="rotate(20 23 23)"/>
+          </svg>
+        </div>
+        <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:var(--latte);margin-bottom:6px;">ORIGEN</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--white);">Arábica</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--gold);">Especialidad</div>
+      </div>
+    </div>
+
+    <div class="roasting-text">
+      <div class="section-tag">Tostado Artesanal</div>
+      <h2 class="roasting-title">El arte de transformar<br><em>el grano verde</em><br>en experiencia</h2>
+      <p class="roasting-body">
+        En Lambert nos especializamos en proveer café de especialidad con trazabilidad completa desde el origen. Cada grano que vendemos pasa por una curaduría rigurosa para garantizarte la mejor taza, ya sea que prefieras un filtrado suave o un espresso intenso.
+      </p>
+      <div class="roast-steps">
+        <div class="roast-step">
+          <div class="step-num">01</div>
+          <div class="step-text">
+            <strong>Selección de Origen</strong>
+            <span>Granos de Colombia, Etiopía, Guatemala y más regiones de especialidad</span>
+          </div>
+        </div>
+        <div class="roast-step">
+          <div class="step-num">02</div>
+          <div class="step-text">
+            <strong>Tostado de Precisión</strong>
+            <span>Perfiles de tueste controlados para realzar cada nota aromática</span>
+          </div>
+        </div>
+        <div class="roast-step">
+          <div class="step-num">03</div>
+          <div class="step-text">
+            <strong>Entrega Fresca</strong>
+            <span>Café embolsado con válvula desgasificadora para máxima frescura</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RAFFLE ══ -->
+<section class="raffle-section">
+  <div class="raffle-tag">Sorteos Exclusivos para Socios</div>
+  <h2 class="raffle-title">Gana equipos de<br><strong>café y té premium</strong></h2>
+  <p class="raffle-desc">
+    Cada mes sorteamos equipos y sets de preparación de alta gama entre nuestros socios activos. A más puntos, más oportunidades de ganar.
+  </p>
+  <div class="raffle-prizes">
+    <div class="prize-card">
+      <span class="prize-icon">⚙</span>
+      <div class="prize-name">Sorteo Mensual</div>
+      <div class="prize-val">Molinillo<br>Premium</div>
+    </div>
+    <div class="prize-card">
+      <span class="prize-icon">◈</span>
+      <div class="prize-name">Sorteo Trimestral</div>
+      <div class="prize-val">Set Completo<br>de Té Gongfu</div>
+    </div>
+    <div class="prize-card">
+      <span class="prize-icon">✦</span>
+      <div class="prize-name">Sorteo Anual</div>
+      <div class="prize-val">Kit Barista<br>Completo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div>
+    <div class="footer-logo">Lambert <span>Coffee</span> Club</div>
+    <div style="font-size:11px;color:rgba(245,234,216,0.3);margin-top:6px;letter-spacing:1px;font-family:'Cinzel',serif;">Santiago de Chile · Est. 2020</div>
+  </div>
+  <div class="footer-note">
+    Tienda de insumos y café de especialidad<br>
+    No somos cafetería · Ventas de productos &amp; accesorios<br>
+    <span style="color:var(--gold);font-size:11px;">@lambert.coffee.cl</span>
+  </div>
+</footer>
+
+<!-- ══ SUCCESS OVERLAY ══ -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-box">
+    <span class="success-icon">✦</span>
+    <div class="success-title">¡Bienvenido al Club Lambert!</div>
+    <p class="success-msg">Tu membresía ha sido registrada exitosamente. Recibirás un correo de confirmación con tu número de socio y los detalles de tus beneficios.</p>
+    <button class="btn-close" onclick="closeSuccess()">CONTINUAR</button>
+  </div>
+</div>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('successOverlay').classList.add('show');
+}
+function closeSuccess() {
+  document.getElementById('successOverlay').classList.remove('show');
+  document.getElementById('clubForm').reset();
+}
+</script>
+</body>
+</html>
